@@ -1,6 +1,9 @@
 pipeline{
 	agent any
-	   stages{
+   	triggers {
+       		pollSCM('*/5 * * * *')
+  	}
+	stages{
 	      stage("Deliver to Docker Hub"){
 		steps {
 			sh"docker build . -t dpankov91/frontend-calc"
@@ -26,7 +29,7 @@ pipeline{
 			sh "selenium-side-runner --server http://localhost:4444/wd/hub -c 'browserName=chrome' --base-url http://app-test-container test/system/FunctionalTests.side"
 		     }
 	      }
-	  }
+	}
 	post {
 		cleanup {
 		   echo "Cleaning the Docker environment"
@@ -36,7 +39,7 @@ pipeline{
 		   sh script:"docker stop app-test-container", returnStatus:true
 		   sh script:"docker network remove SE", returnStatus:true
 			}
-	   }
+	 }
 }
  
 	      
