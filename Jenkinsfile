@@ -1,14 +1,17 @@
 pipeline{
 	agent any
+   	triggers {
+       		pollSCM('*/5 * * * *')
+  	}
 	stages{
 	      stage("Deliver to Docker Hub"){
 		steps {
-			sh"docker build . -t dpankov91/frontend-calc"
+			sh"docker build . -t dpankov91/calculator"
 			withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
 			{
 		   	sh 'docker login -u ${USERNAME} -p &{PASSWORD}'
 			}
-			sh "docker push dpankov91/frontend-calc"
+			sh "docker push dpankov91/calculator"
 		      }
 		}
 	      stage("Selenium grid setup") {
