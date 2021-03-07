@@ -18,8 +18,8 @@ pipeline{
 		steps{
 			sh "docker network create SE"
 			sh "docker run -d --rm -p 4444:4444 --net=SE --name selenium-hub selenium/hub"
-			sh "docker run -d --rm --net=SE -e HUB_HOST=selenium-hub --name selenium-node-firefox selenium/node-firefox" 
-			sh "docker run -d --rm --net=SE -e HUB_HOST=selenium-hub --name selenium-node-chrome selenium/node-chrome"
+			sh "docker run -d --rm --net=SE -e HUB_HOST=selenium-hub --name selenium-node-firefox123 selenium/node-firefox" 
+			sh "docker run -d --rm --net=SE -e HUB_HOST=selenium-hub --name selenium-node-chrome123 selenium/node-chrome"
 			sh "docker run -d --rm --net=SE --name app-test-container dpankov91/frontend-calc"
 		     }
 	      }
