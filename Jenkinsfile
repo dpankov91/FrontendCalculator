@@ -16,17 +16,17 @@ pipeline{
 		}
 	      stage("Selenium grid setup") {
 		steps{
-			sh "docker network create SEM"
-			sh "docker run -d --rm -p 4444:4444 --net=SEM --name selenium-hub selenium/hub"
-			sh "docker run -d --rm --net=SEM -e HUB_HOST=selenium-hub --name selenium-node-firefox1234 selenium/node-firefox" 
-			sh "docker run -d --rm --net=SEM -e HUB_HOST=selenium-hub --name selenium-node-chrome1234 selenium/node-chrome"
-			sh "docker run -d --rm --net=SEM --name app-test-container dpankov91/calculator"
+			sh "docker network create SEMA"
+			sh "docker run -d --rm -p 4444:4444 --net=SEMA --name selenium-hub selenium/hub"
+			sh "docker run -d --rm --net=SEMA -e HUB_HOST=selenium-hub --name selenium-node-firefox12345 selenium/node-firefox" 
+			sh "docker run -d --rm --net=SEMA -e HUB_HOST=selenium-hub --name selenium-node-chrome12345 selenium/node-chrome"
+			sh "docker run -d --rm --net=SEMA	 --name app-test-container dpankov91/calculator"
 		     }
 	      }
 	      stage("Execute system tests") {
 		steps{
-			sh "selenium-side-runner --server http://localhost:4444/wd/hub -c 'browserName=firefox' --base-url http://app-test-container test/system/CalculatorTest.side" 
-			sh "selenium-side-runner --server http://localhost:4444/wd/hub -c 'browserName=chrome' --base-url http://app-test-container test/system/CalculatorTest.side"
+			sh "selenium-side-runner --server http://localhost:4444/wd/hub -c 'browserName=firefox' --base-url http://app-test-container test/system/CalculatorTest1.side" 
+			sh "selenium-side-runner --server http://localhost:4444/wd/hub -c 'browserName=chrome' --base-url http://app-test-container test/system/CalculatorTest1.side"
 		     }
 	      }
 	}
