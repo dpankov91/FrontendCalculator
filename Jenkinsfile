@@ -17,7 +17,7 @@ pipeline{
 	      stage("Selenium grid setup") {
 		steps{
 			sh "docker network create SE"
-			sh "docker run -d --rm 4444:4444 --net=SE --name selenium-hub selenium/hub"
+			sh "docker run -d --rm -p 4444:4444 --net=SE --name selenium-hub selenium/hub"
 			sh "docker run -d --rm --net=SE -e HUB_HOST=selenium-hub --name selenium-node-firefox selenium/node-firefox" 
 			sh "docker run -d --rm --net=SE -e HUB_HOST=selenium-hub --name selenium-node-chrome selenium/node-chrome"
 			sh "docker run -d --rm --net=SE --name app-test-container dpankov91/frontend-calc"
